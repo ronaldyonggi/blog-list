@@ -4,6 +4,7 @@
   "description": "Blog list app, based on Full Stack Open course",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
