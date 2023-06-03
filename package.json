@@ -4,9 +4,10 @@
   "description": "Blog list app, based on Full Stack Open course",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix ."
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "lint": "eslint --fix .",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "mongoose": "^7.2.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.41.0",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
