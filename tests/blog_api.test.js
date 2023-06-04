@@ -28,6 +28,19 @@ test('all blogs are returned and have correct amount', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
+test('the unique identifier property of blog posts is named id', async () => {
+  // Fetch blogs
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+  const fetchedBlogs = response.body
+  // Get the first blog
+  const firstBlog = fetchedBlogs[0]
+  // Check that the blog's id is defined
+  expect(firstBlog.id).toBeDefined
+})
+
 
 afterAll(async () => {
   await mongoose.connection.close()
