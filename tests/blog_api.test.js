@@ -124,7 +124,7 @@ describe('adding a new blog', () => {
 })
 
 describe('deleting a blog', () => {
-  test('delete successful with valid id', async () => {
+  test('delete successful with status code 204 if id is valid', async () => {
     const initialBlogs = await helper.blogsInDb()
     const blogToDelete = initialBlogs[0]
 
