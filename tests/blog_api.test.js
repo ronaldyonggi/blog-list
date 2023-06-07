@@ -102,6 +102,22 @@ describe('adding a new blog', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
+  test('if url property is missing from request data, receives 400', async () => {
+    const newBlog = {
+      title: 'Blog with no url',
+      author: 'May Heny',
+      likes: 999
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    // Check if the number of blogs change
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
 
 })
 
