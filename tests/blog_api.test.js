@@ -15,30 +15,32 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-}, 100000)
+describe('fetching all blogs', () => {
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  }, 100000)
 
-test('all blogs are returned and have correct amount', async () => {
-  const response = await api.get('/api/blogs')
+  test('all blogs are returned and have correct amount', async () => {
+    const response = await api.get('/api/blogs')
 
-  expect(response.body).toHaveLength(helper.initialBlogs.length)
-})
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
 
-test('the unique identifier property of blog posts is named id', async () => {
-  // Fetch blogs
-  const response = await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-  const fetchedBlogs = response.body
-  // Get the first blog
-  const firstBlog = fetchedBlogs[0]
-  // Check that the blog's id is defined
-  expect(firstBlog.id).toBeDefined
+  test('the unique identifier property of blog posts is named id', async () => {
+    // Fetch blogs
+    const response = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    const fetchedBlogs = response.body
+    // Get the first blog
+    const firstBlog = fetchedBlogs[0]
+    // Check that the blog's id is defined
+    expect(firstBlog.id).toBeDefined
+  })
 })
 
 describe('adding a new blog', () => {
