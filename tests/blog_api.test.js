@@ -123,6 +123,25 @@ describe('adding a new blog', () => {
 
 })
 
+describe('deleting a blog', () => {
+  test('delete successful with valid id', async () => {
+    const initialBlogs = await helper.blogsInDb()
+    const blogToDelete = initialBlogs[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    // Check that the number of blogs decreases by 1
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    // Check that none of the blogs contain the deleted blog's title
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).not.toContain(blogToDelete.title)
+  })
+})
 afterAll(async () => {
   await mongoose.connection.close()
 })
