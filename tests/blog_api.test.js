@@ -85,6 +85,23 @@ describe('adding a new blog', () => {
     expect(noLikesBlog.likes).toBe(0)
   })
 
+  test('if title property is missing from request data, receives 400', async () => {
+    const newBlog = {
+      author: 'no title',
+      url: 'mfiasdmas',
+      likes: 34
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    // Check if the number of blogs change
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+
 
 })
 
