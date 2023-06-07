@@ -62,6 +62,30 @@ describe('adding a new blog', () => {
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).toContain('this is a new blog')
   })
+
+  test('if likes is not provided, blog would be created with default 0 likes', async () => {
+    const newBlog = {
+      title: 'a blog without likes',
+      author: 'Unlikeable',
+      url: 'no url'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    // Check blog length at the end is 1 more than initial blogs
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    // Find the blog that was created and check that its likes is equal to 0
+    const noLikesBlog = blogsAtEnd.find(blog => blog.title === newBlog.title)
+    expect(noLikesBlog.likes).toBe(0)
+  })
+
+
 })
 
 afterAll(async () => {
