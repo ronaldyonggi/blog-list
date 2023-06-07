@@ -142,6 +142,25 @@ describe('deleting a blog', () => {
     expect(titles).not.toContain(blogToDelete.title)
   })
 })
+
+describe('updating a blog', () => {
+  test('blog can be successfully updated given valid request', async () => {
+    const initialBlogs = await helper.blogsInDb()
+
+    const blogToUpdate = initialBlogs[0]
+    const updatedBlog = { ...blogToUpdate, likes: 999999 }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const likes = blogsAtEnd.map(blog => blog.likes)
+    expect(likes).toContain(updatedBlog.likes)
+  })
+})
 afterAll(async () => {
   await mongoose.connection.close()
 })
