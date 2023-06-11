@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 // Users have username, password, and name
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   name: {
     type: String,
@@ -15,6 +17,8 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 })
+
+userSchema.plugin(uniqueValidator)
 
 // Transform the formatting for user schema
 userSchema.set('toJSON', {
