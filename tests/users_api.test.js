@@ -18,6 +18,28 @@ beforeEach(async () => {
 })
 
 describe('creating a user', () => {
+
+  test('successful with username that has not been taken', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'heyathere',
+      name: 'Hein Maydale',
+      password: 'bluemne'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(user => user.username)
+    expect(usernames).toContain(newUser.username)
+  })
   test('failed if username is already taken', async () => {
     const usersAtStart = await helper.usersInDb()
 
@@ -39,6 +61,7 @@ describe('creating a user', () => {
     expect(usersAtEnd).toEqual(usersAtStart)
 
   })
+
 })
 
 afterAll(async () => {
