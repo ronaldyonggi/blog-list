@@ -59,6 +59,26 @@ describe('creating a user', () => {
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
+  })
+
+  test('failed if username is less than 3 characters length', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'ss',
+      name: 'Shorty',
+      password: 'hashiaw'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toEqual(usersAtStart)
+  })
 
   })
 
