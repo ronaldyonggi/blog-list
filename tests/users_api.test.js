@@ -80,6 +80,25 @@ describe('creating a user', () => {
     expect(usersAtEnd).toEqual(usersAtStart)
   })
 
+  test('failed if password is less than 3 characters length', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'tooShortPass',
+      name: 'Jen Newton',
+      password: 'aa'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('password must be at least 3 characters long!')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toEqual(usersAtStart)
   })
 
 })
