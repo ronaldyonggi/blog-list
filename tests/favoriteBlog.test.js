@@ -25,25 +25,25 @@ describe('favorite blog', () => {
     const listWithMultipleBlogs = [
       {
         title: 'What is this',
-        author: "Guille",
+        author: 'Guille',
         likes: 6
       },
       {
         title: 'The one',
-        author: "Mindo Ski",
+        author: 'Mindo Ski',
         likes: 592
       },
       {
 
         title: 'aaaaaa',
-        author: "none",
+        author: 'none',
         likes: 23
       }
     ]
 
     const expected = {
       title: 'The one',
-      author: "Mindo Ski",
+      author: 'Mindo Ski',
       likes: 592
     }
 
