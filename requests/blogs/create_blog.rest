@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Things I don't know",
+  "author": "Danny Mohey",
+  "url": "www.thingsidontknow.io",
+  "likes": 37,
+  "userId": "6486226fe83cf70d39fa29e6"
+}
