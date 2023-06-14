@@ -66,8 +66,9 @@ blogsRouter.delete('/:id', async (request, response) => {
     return response.status(401).json({
       error: 'invalid user!',
     })
+  } else {
+    await Blog.findByIdAndDelete(request.params.id)
   }
-
   response.status(204).end()
 })
 
