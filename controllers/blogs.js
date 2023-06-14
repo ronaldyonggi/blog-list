@@ -50,7 +50,24 @@ blogsRouter.post('', async (request, response) => {
 
 // Delete a blog
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
+
+  // Verify token
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  const blogToDelete = await Blog.findById(request.params.id)
+
+  // Note that blogToDelete.user is an object, need to convert to string!
+  // If the user that owns the blog isn't equal to the user from the token, send error
+  if (blogToDelete.user.toString() !== user.id) {
+    return response.status(401).json({
+      error: 'invalid user!',
+    })
+  }
+
   response.status(204).end()
 })
 
